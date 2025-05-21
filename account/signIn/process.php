@@ -2,7 +2,7 @@
 <?php
 $servername = "db";
 $username = "willeans_dotDisplay";
-$password = "Kf@LUhD!XSP=";
+
 $dbname = "willeans_dotDisplay";
 
 $inputedEmail = $_POST['inputedEmail'];

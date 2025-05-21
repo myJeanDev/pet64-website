@@ -5,7 +5,7 @@ session_destroy();
 <?php
 $servername = "db";
 $username = "willeans_dotDisplay";
-$password = "Kf@LUhD!XSP=";
+
 $dbname = "willeans_dotDisplay";
 
 $createdEmail = $_POST['createdEmail'];

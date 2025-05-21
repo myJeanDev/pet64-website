@@ -10,7 +10,7 @@ $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 //MYSQL CONNECTION
 $servername = "localhost";
 $username = "willeans_dotDisplay";
-$password = "Kf@LUhD!XSP=";
+
 $dbname = "willeans_dotDisplay";
 
     $conn = new mysqli($servername, $username, $password, $dbname);

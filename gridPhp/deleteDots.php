@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "willeans_dotDisplay";
-$password = "Kf@LUhD!XSP=";
+
 $dbname = "willeans_dotDisplay";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
