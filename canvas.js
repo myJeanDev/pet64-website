@@ -246,7 +246,7 @@ let grid = {
       }
       const formData = new FormData();
       formData.append('title', 'wadkjh');
-      formData.append('dotImage', grid.exportedArray);
+      formData.append('dotImage', JSON.stringify({ data: grid.exportedArray }));
       formData.append('uuid', generateValidUUID());
 
       const response = await fetch("/createDisplay", {
