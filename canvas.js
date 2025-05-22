@@ -402,12 +402,13 @@ let controls = {
     createSubmitButton: () => {
       console.log("submitButton Active");
       controls.submitButton.addEventListener("click", async () => {
+        console.log("button was clicked! disabled:" + controls.disable);
         if (controls.disable == false) {
           controls.disable = true;
           grid.pushData();
           setTimeout(() => {
             window.location.href = "/gallery/gallery";
-          }, 3000);
+          }, 5000);
         } else {
           console.log("cant Upload Again");
         }
@@ -425,7 +426,6 @@ let controls = {
 grid.createCollisionStorage();
 controls.initilize();
 grid.initilize();
-grid.pullData();
 grid.collisionCheck();
 
 document.body.addEventListener("scroll", () => {
