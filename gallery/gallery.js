@@ -121,7 +121,6 @@ function grid(originalMap, map, author, date, title, uniqueId) {
   this.map = map;
   this.array = [];
   this.create = (that) => {
-    renderLinkIcon(that.container, uniqueId);
     that.container.classList.add("galleryRow");
     that.container.appendChild(that.body);
     that.container.appendChild(that.textContainer);
