@@ -130,7 +130,8 @@ function grid(originalMap, map, author, date, title, uniqueId) {
     that.textContainer.classList.add("galleryTextContainer");
     that.body.classList.add("galleryGrid");
     that.title.innerHTML = title;
-    that.author.innerHTML = author + "~" + date;
+    // that.author.innerHTML = author + "~" + date;
+    that.author.innerHTML = date;
     that.author.classList.add("galleryTextSmaller");
     createDots(map, that);
     document.getElementById("galleryContainer").appendChild(that.container);

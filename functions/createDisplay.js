@@ -1,26 +1,49 @@
+import Filter from 'bad-words';
+
 export async function onRequestPost(context) {
     const { request, env } = context;
     const url = new URL(request.url);
 
     try {
+        const filter = new Filter();
         // Using a form submission 
         const formData = await request.formData();
-        const code = formData.get('code');
+        const uuid = formData.get('uuid');
         const title = formData.get('title');
-        const map = formData.get('map');
+        const dotImage = formData.get('dotImage');
 
-        // validation if form requirements do not catch
-        if (!code || !title || !map) {
-            return new Response('Missing required fields (code, title, map)', {
-                status: 400
-            });
+        // Required field validation
+        if (!uuid || !title || !dotImage) {
+            errors.push('Missing required fields');
+        }
+
+        // Type and format validation
+        if (uuid && (typeof uuid !== 'string' || uuid.length > 64)) {
+            errors.push('uuid must be a string under 64 characters');
+        }
+
+        if (title && (typeof title !== 'string' || title.length > 16)) {
+            errors.push('Title must be a string under 16 characters');
+        }
+
+        if (title && filter.isProfane(title)) {
+            errors.push('Title contains inappropriate language');
+        }
+
+        // Validate valid JSON
+        if (dotImage) {
+            try {
+                JSON.parse(dotImage);
+            } catch {
+                errors.push('dotImage must be valid JSON');
+            }
         }
 
         const timeCreated = new Date().toISOString();
 
         const sqlStatement = env.DB.prepare(
             "INSERT INTO displays (code, title, map, timeCreated) VALUES (?1, ?2, ?3, ?4)"
-        ).bind(code, title, map, timeCreated);
+        ).bind(uuid, title, dotImage, timeCreated);
 
         const { success } = await sqlStatement.run();
 

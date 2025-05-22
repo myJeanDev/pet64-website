@@ -419,7 +419,7 @@ let controls = {
           controls.disable = true;
           grid.pushData();
           setTimeout(() => {
-            window.location.href = "/gallery";
+            window.location.href = "/gallery/gallery";
           }, 3000);
         } else {
           console.log("cant Upload Again");
