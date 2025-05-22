@@ -106,10 +106,10 @@ function pageDisplay(map) {
 }
 
 function createGalleryGrid(array) {
-  let parent = new grid(stringToArray(array[3]), mapConversion(stringToArray(array[3])), array[1], array[2], array[0], array[4]);
+  new grid(stringToArray(array[2]), mapConversion(stringToArray(array[2])), array[1], array[0], array[3]);
 }
 
-function grid(originalMap, map, author, date, title, uniqueId) {
+function grid(originalMap, map, date, title, uniqueId) {
   console.log("grid: " + uniqueId);
   this.container = document.createElement("div");
   this.textContainer = document.createElement("div");
@@ -129,7 +129,6 @@ function grid(originalMap, map, author, date, title, uniqueId) {
     that.textContainer.classList.add("galleryTextContainer");
     that.body.classList.add("galleryGrid");
     that.title.innerHTML = title;
-    // that.author.innerHTML = author + "~" + date;
     that.author.innerHTML = date;
     that.author.classList.add("galleryTextSmaller");
     createDots(map, that);
