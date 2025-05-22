@@ -23,17 +23,9 @@ function makeDark() {
     console.log("Dark");
     let styler = document.getElementById("styler");
     styler.setAttribute("href", "darkMode/darkStyle.css");
-    $(document).ready(function () {
-        $.ajax({
-            type: "POST",
-            url: 'darkMode/darkModeSwitch.php',
-            data: {
-                darkMode: true
-            },
-        });
-    });
     console.log("madeDark: " + dark);
 }
+
 function makeLight() {
     dark = false;
     switchContainer.style.border = "1px solid rgb(50,50,50)";
@@ -43,32 +35,5 @@ function makeLight() {
     switchContainer.style.background = "transparent";
     let styler = document.getElementById("styler");
     styler.setAttribute("href", "../style.css");
-    $(document).ready(function () {
-        $.ajax({
-            type: "POST",
-            url: 'darkMode/darkModeSwitch.php',
-            data: {
-                darkMode: false
-            },
-        });
-    });
     console.log("madeLight: " + dark);
 }
-
-function checkCurrentState() {
-    $(document).ready(function () {
-        $.ajax({
-            url: "darkMode/darkModeCheck.php",
-            type: 'GET',
-            success: function (result) {
-                console.log("DARKMODE: " + result);
-                if (result === "true") {
-                    makeDark();
-                } else {
-                    makeLight();
-                }
-            }
-        });
-    });
-}
-checkCurrentState();
