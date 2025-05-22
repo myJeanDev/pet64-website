@@ -42,15 +42,6 @@ export async function onRequestPost(context) {
             errors.push('Title contains inappropriate language');
         }
 
-        // Validate valid JSON
-        if (dotImage) {
-            try {
-                JSON.parse(dotImage);
-            } catch {
-                errors.push('dotImage must be valid JSON');
-            }
-        }
-
         // Return errors if any exist
         if (errors.length > 0) {
             return new Response(JSON.stringify({ errors }), {
