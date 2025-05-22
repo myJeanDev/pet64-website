@@ -62,7 +62,7 @@ export async function onRequestPost(context) {
         const timeCreated = new Date().toISOString();
 
         const sqlStatement = env.DB.prepare(
-            "INSERT INTO displays (code, title, map, timeCreated) VALUES (?1, ?2, ?3, ?4)"
+            "INSERT INTO displays (uuid, title, dotImage, timeCreated) VALUES (?1, ?2, ?3, ?4)"
         ).bind(uuid, title, dotImage, timeCreated);
 
         const { success } = await sqlStatement.run();
