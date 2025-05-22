@@ -4,8 +4,6 @@ export async function onRequestGet(context) {
     try {
         const sqlStatement = env.DB.prepare("SELECT * FROM displays");
         const { results } = await sqlStatement.all();
-
-        // Return JSON directly instead of HTML
         return Response.json(results);
 
     } catch (error) {
