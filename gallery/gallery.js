@@ -18,10 +18,9 @@ async function pullDisplayData() {
       const date = new Date(display.timeCreated).toLocaleDateString();
       const displayArray = [
         display.title,
-        "Anonymous",
         date,
-        display.map,
-        display.code
+        display.dotImage,
+        display.uuid
       ];
       createGalleryGrid(displayArray);
     });
