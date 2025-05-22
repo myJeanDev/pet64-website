@@ -238,8 +238,8 @@ let grid = {
     try {
       const formData = new FormData();
       formData.append('title', document.getElementById("canvasTitle").value);
-      formData.append('map', grid.exportedArray);
-      formData.append('code', generateRandomCode()); // You'll need this function
+      formData.append('dotImage', grid.exportedArray);
+      formData.append('uuid', generateRandomCode()); // You'll need this function
 
       const response = await fetch('/createDisplay', {
         method: 'POST',
