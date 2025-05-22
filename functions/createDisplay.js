@@ -1,11 +1,22 @@
-import Filter from 'bad-words';
-
 export async function onRequestPost(context) {
     const { request, env } = context;
     const url = new URL(request.url);
+    const errors = [];
+
+    // Simple profanity filter function
+    function containsProfanity(text) {
+        const badWords = [
+            'fuck', 'shit', 'bitch', 'damn', 'ass', 'hell', 'crap',
+            'piss', 'dick', 'cock', 'pussy', 'slut', 'whore', 'bastard',
+            'nigger', 'nigga', 'faggot', 'retard', 'gay', 'homo'
+            // Add more words as needed
+        ];
+
+        const lowerText = text.toLowerCase();
+        return badWords.some(word => lowerText.includes(word));
+    }
 
     try {
-        const filter = new Filter();
         // Using a form submission 
         const formData = await request.formData();
         const uuid = formData.get('uuid');
@@ -26,7 +37,8 @@ export async function onRequestPost(context) {
             errors.push('Title must be a string under 16 characters');
         }
 
-        if (title && filter.isProfane(title)) {
+        // Profanity check
+        if (title && containsProfanity(title)) {
             errors.push('Title contains inappropriate language');
         }
 
@@ -37,6 +49,14 @@ export async function onRequestPost(context) {
             } catch {
                 errors.push('dotImage must be valid JSON');
             }
+        }
+
+        // Return errors if any exist
+        if (errors.length > 0) {
+            return new Response(JSON.stringify({ errors }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
 
         const timeCreated = new Date().toISOString();
