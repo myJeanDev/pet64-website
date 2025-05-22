@@ -222,7 +222,6 @@ let grid = {
     }
   },
   pushData: async () => {
-    // Build the map data (same as before)
     grid.exportedArray = "";
     for (let x = 0; x < grid.array.length; x++) {
       for (let y = 0; y < grid.array[x].length; y++) {
@@ -414,20 +413,18 @@ let controls = {
       });
     },
     createSubmitButton: () => {
-      if (document.getElementById('canvasPage') !== null) {
-        console.log("submitButton Active");
-        controls.submitButton.addEventListener("click", async () => {
-          if (controls.disable == false) {
-            controls.disable = true;
-            grid.pushData();
-            setTimeout(() => {
-              window.location.href = "/gallery";
-            }, 3000);
-          } else {
-            console.log("cant Upload Again");
-          }
-        });
-      }
+      console.log("submitButton Active");
+      controls.submitButton.addEventListener("click", async () => {
+        if (controls.disable == false) {
+          controls.disable = true;
+          grid.pushData();
+          setTimeout(() => {
+            window.location.href = "/gallery";
+          }, 3000);
+        } else {
+          console.log("cant Upload Again");
+        }
+      });
     },
   },
   initilize: () => {
