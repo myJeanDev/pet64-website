@@ -1,3 +1,12 @@
+function generateRandomCode(length = 32) {
+  const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
 let grid = {
   collisionArray: [],
   collisionNumbersArray: [[], []],
@@ -212,7 +221,8 @@ let grid = {
       loop(0);
     }
   },
-  pushData: () => {
+  pushData: async () => {
+    // Build the map data (same as before)
     grid.exportedArray = "";
     for (let x = 0; x < grid.array.length; x++) {
       for (let y = 0; y < grid.array[x].length; y++) {
@@ -224,18 +234,30 @@ let grid = {
       }
       grid.exportedArray += "#";
     }
+
     console.log(grid.exportedArray);
-    $(document).ready(function () {
-      $.ajax({
-        type: "POST",
-        url: '../gridPhp/pushDots.php',
-        data: {
-          title: document.getElementById("canvasTitle").value,
-          map: grid.exportedArray
-        },
+    try {
+      const formData = new FormData();
+      formData.append('title', document.getElementById("canvasTitle").value);
+      formData.append('map', grid.exportedArray);
+      formData.append('code', generateRandomCode()); // You'll need this function
+
+      const response = await fetch('/createDisplay', {
+        method: 'POST',
+        body: formData
       });
-    });
-    grid.clearReverse();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log("Drawing saved successfully!");
+      grid.clearReverse();
+
+    } catch (error) {
+      console.error("Error saving drawing:", error);
+      throw error; // Re-throw so createSubmitButton can handle it
+    }
   },
   pullData: (query) => {
     $(document).ready(function () {
@@ -394,12 +416,12 @@ let controls = {
     createSubmitButton: () => {
       if (document.getElementById('canvasPage') !== null) {
         console.log("submitButton Active");
-        controls.submitButton.addEventListener("click", () => {
+        controls.submitButton.addEventListener("click", async () => {
           if (controls.disable == false) {
             controls.disable = true;
             grid.pushData();
             setTimeout(() => {
-              window.location.href = "../account/accountPage/page.php";
+              window.location.href = "/gallery";
             }, 3000);
           } else {
             console.log("cant Upload Again");

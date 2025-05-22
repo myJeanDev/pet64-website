@@ -5,7 +5,7 @@ function rand(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-async function pullUserData() {
+async function pullDisplayData() {
   try {
     const response = await fetch('/displays');
 
@@ -188,4 +188,4 @@ function dot(parent, x, y, count, active) {
   this.createSelf(this);
 }
 
-document.addEventListener('DOMContentLoaded', pullUserData);
+document.addEventListener('DOMContentLoaded', pullDisplayData);
