@@ -199,16 +199,13 @@ let grid = {
     for (let columns = 0; columns < rows.length; columns++) {
       storage[columns] = rows[columns].split("");
     }
-
-    for (let x = 0; x < storage.length; x++) {
+    for (let x = 0; x < grid.array.length; x++) {
       function loop(y) {
-        if (y < storage[x].length) {
+        if (y < grid.array[x].length) {
           if (storage[x][y] == 1) {
-            if (grid.array[x] && grid.array[x][y]) {
-              grid.array[x][y].active = true;
-              grid.array[x][y].dot.classList.remove("colorRevert");
-              grid.array[x][y].dot.classList.add("colorChange");
-            }
+            grid.array[x][y].active = true;
+            grid.array[x][y].dot.classList.remove("colorRevert");
+            grid.array[x][y].dot.classList.add("colorChange");
             if (grid.speed < 200) {
               grid.speed += grid.changer;
             }
@@ -239,20 +236,14 @@ let grid = {
 
     console.log(grid.exportedArray);
     try {
-      const title = document.getElementById("canvasTitle").value;
-      if (!title.trim()) {
-        alert("Please enter a title");
-        return;
-      }
       const formData = new FormData();
-      formData.append('title', 'wadkjh');
+      formData.append('title', document.getElementById("canvasTitle").value);
       formData.append('dotImage', grid.exportedArray);
-      formData.append('uuid', generateValidUUID());
+      formData.append('uuid', generateRandomCode());
 
-      const response = await fetch("/createDisplay", {
-        method: "POST",
-        body: formData,
-        credentials: "omit",
+      const response = await fetch('/createDisplay', {
+        method: 'POST',
+        body: formData
       });
 
       if (!response.ok) {
@@ -408,17 +399,12 @@ let controls = {
     createSubmitButton: () => {
       console.log("submitButton Active");
       controls.submitButton.addEventListener("click", async () => {
-        console.log("button was clicked! disabled:" + controls.disable);
         if (controls.disable == false) {
           controls.disable = true;
-          try {
-            grid.pushData();
-          } catch (error) {
-            console.log(error);
-          }
+          grid.pushData();
           setTimeout(() => {
             window.location.href = "/gallery/gallery";
-          }, 5000);
+          }, 3000);
         } else {
           console.log("cant Upload Again");
         }
@@ -433,17 +419,10 @@ let controls = {
   },
 };
 
-function generateValidUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
 grid.createCollisionStorage();
 controls.initilize();
 grid.initilize();
+grid.pullData();
 grid.collisionCheck();
 
 document.body.addEventListener("scroll", () => {
