@@ -239,14 +239,20 @@ let grid = {
 
     console.log(grid.exportedArray);
     try {
+      const title = document.getElementById("canvasTitle").value;
+      if (!title.trim()) {
+        alert("Please enter a title");
+        return;
+      }
       const formData = new FormData();
-      formData.append('title', document.getElementById("canvasTitle").value);
+      formData.append('title', 'wadkjh');
       formData.append('dotImage', grid.exportedArray);
-      formData.append('uuid', generateRandomCode());
+      formData.append('uuid', generateValidUUID());
 
-      const response = await fetch('/createDisplay', {
-        method: 'POST',
-        body: formData
+      const response = await fetch("/createDisplay", {
+        method: "POST",
+        body: formData,
+        credentials: "omit",
       });
 
       if (!response.ok) {
@@ -405,7 +411,11 @@ let controls = {
         console.log("button was clicked! disabled:" + controls.disable);
         if (controls.disable == false) {
           controls.disable = true;
-          grid.pushData();
+          try {
+            grid.pushData();
+          } catch (error) {
+            console.log(error);
+          }
           setTimeout(() => {
             window.location.href = "/gallery/gallery";
           }, 5000);
@@ -422,6 +432,14 @@ let controls = {
     controls.functions.createButtons();
   },
 };
+
+function generateValidUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
 
 grid.createCollisionStorage();
 controls.initilize();
