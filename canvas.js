@@ -192,20 +192,23 @@ let grid = {
       loop(grid.array[x].length - 1);
     }
   },
-  pattern: (map) => {
-    console.log(map);
-    let rows = map.split("#");
+  pattern: (dotImage) => {
+    console.log(dotImage);
+    let rows = dotImage.split("#");
     let storage = [];
     for (let columns = 0; columns < rows.length; columns++) {
       storage[columns] = rows[columns].split("");
     }
-    for (let x = 0; x < grid.array.length; x++) {
+
+    for (let x = 0; x < storage.length; x++) {
       function loop(y) {
-        if (y < grid.array[x].length) {
+        if (y < storage[x].length) {
           if (storage[x][y] == 1) {
-            grid.array[x][y].active = true;
-            grid.array[x][y].dot.classList.remove("colorRevert");
-            grid.array[x][y].dot.classList.add("colorChange");
+            if (grid.array[x] && grid.array[x][y]) {
+              grid.array[x][y].active = true;
+              grid.array[x][y].dot.classList.remove("colorRevert");
+              grid.array[x][y].dot.classList.add("colorChange");
+            }
             if (grid.speed < 200) {
               grid.speed += grid.changer;
             }
@@ -239,7 +242,7 @@ let grid = {
       const formData = new FormData();
       formData.append('title', document.getElementById("canvasTitle").value);
       formData.append('dotImage', grid.exportedArray);
-      formData.append('uuid', generateRandomCode()); // You'll need this function
+      formData.append('uuid', generateRandomCode());
 
       const response = await fetch('/createDisplay', {
         method: 'POST',
@@ -257,22 +260,6 @@ let grid = {
       console.error("Error saving drawing:", error);
       throw error; // Re-throw so createSubmitButton can handle it
     }
-  },
-  pullData: (query) => {
-    $(document).ready(function () {
-      $.ajax({
-        url: "../gridPhp/pullCanvasDots.php",
-        type: 'GET',
-        success: function (result) {
-          let resultArray = result.split("&");
-          console.log(resultArray);
-          if (result != false) {
-            document.getElementById("canvasTitle").value = resultArray[1];
-            grid.pattern(resultArray[0]);
-          }
-        }
-      });
-    });
   },
   initilize: () => {
     grid.calcSize();
