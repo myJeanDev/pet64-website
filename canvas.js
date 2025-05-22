@@ -422,7 +422,6 @@ let controls = {
 grid.createCollisionStorage();
 controls.initilize();
 grid.initilize();
-grid.pullData();
 grid.collisionCheck();
 
 document.body.addEventListener("scroll", () => {
