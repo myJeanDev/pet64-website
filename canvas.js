@@ -402,8 +402,9 @@ let controls = {
         if (controls.disable == false) {
           controls.disable = true;
           grid.pushData();
+          document.getElementById("canvasTitle").value = "";
           setTimeout(() => {
-            window.location.href = "/gallery/gallery";
+            controls.disable = false;
           }, 3000);
         } else {
           console.log("cant Upload Again");
