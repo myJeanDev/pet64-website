@@ -14,6 +14,12 @@ async function pullDisplayData() {
     }
 
     const displays = await response.json();
+
+    // sort newest to oldest
+    displays.sort((a, b) => {
+      return new Date(b.timeCreated) - new Date(a.timeCreated);
+    });
+
     displays.forEach(display => {
       const date = new Date(display.timeCreated).toLocaleDateString();
       const displayArray = [
